@@ -1,15 +1,32 @@
 from django.shortcuts import render
 
-# Create your views here.
-
 
 def main(request):
-    return render(request, 'mainapp/index.html')
+    content = {
+        'title': 'Домой',
+        'menu': menu,
+    }
+    return render(request, 'mainapp/index.html', content)
 
 
 def products(request):
-    return render(request, 'mainapp/products.html')
+    content = {
+        'title': 'Продукты',
+        'menu': menu,
+    }
+    return render(request, 'mainapp/products.html', content)
 
 
 def contact(request):
-    return render(request, 'mainapp/contact.html')
+    content = {
+        'title': 'Контакты',
+        'menu': menu,
+    }
+    return render(request, 'mainapp/contact.html', content)
+
+
+menu = [
+    {'url': 'main', 'name': 'домой'},
+    {'url': 'products', 'name': 'продукты'},
+    {'url': 'contact', 'name': 'контакты'}
+]
