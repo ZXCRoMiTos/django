@@ -14,7 +14,8 @@ def main(request):
     return render(request, 'mainapp/index.html', content)
 
 
-def products(request):
+def products(request, pk=None):
+    print(pk)
     file_path = os.path.join(module_dir, 'fixtures/products.json')
     products_card = json.load(open(file_path, encoding='utf-8'))
     content = {
@@ -38,7 +39,7 @@ module_dir = os.path.dirname(__file__)
 
 menu = [
     {'url': 'main', 'name': 'домой'},
-    {'url': 'products', 'name': 'продукты'},
+    {'url': 'products:index', 'name': 'продукты'},
     {'url': 'contact', 'name': 'контакты'}
 ]
 

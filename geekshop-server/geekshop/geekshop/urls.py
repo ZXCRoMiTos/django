@@ -18,12 +18,13 @@ from django.urls import path
 from mainapp.views import main, products, contact
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import include
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main, name='main'),
-    path('products/', products, name='products'),
+    path('products/', include('mainapp.urls', namespace='products')),
     path('contact/', contact, name='contact'),
     path('products_all/', products, name='products_all'),
     path('products_home/', products, name='products_home'),
