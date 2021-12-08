@@ -1,12 +1,15 @@
 from django.shortcuts import render
+from .models import Product, ProductCategory
 import os
 import json
 
 
 def main(request):
+    products_in_main = Product.objects.all()
     content = {
-        'title': 'Домой',
+        'title': 'Главная',
         'menu': menu,
+        'products': products_in_main
     }
     return render(request, 'mainapp/index.html', content)
 
