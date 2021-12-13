@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from .models import Product, ProductCategory
+from .models import Product
 import os
 import json
 
 
-def main(request):
+def index(request):
     products_in_main = Product.objects.all()
     content = {
         'title': 'Главная',
@@ -14,8 +14,7 @@ def main(request):
     return render(request, 'mainapp/index.html', content)
 
 
-def products(request, pk=None):
-    print(pk)
+def products(request):
     file_path = os.path.join(module_dir, 'fixtures/products.json')
     products_card = json.load(open(file_path, encoding='utf-8'))
     content = {
@@ -38,9 +37,9 @@ def contact(request):
 module_dir = os.path.dirname(__file__)
 
 menu = [
-    {'url': 'main', 'name': 'домой'},
-    {'url': 'products:index', 'name': 'продукты'},
-    {'url': 'contact', 'name': 'контакты'}
+    {'href': 'main:index', 'url': 'index', 'name': 'домой'},
+    {'href': 'main:products', 'url': 'products', 'name': 'продукты'},
+    {'href': 'main:contact', 'url': 'contact', 'name': 'контакты'}
 ]
 
 products_menu = [
