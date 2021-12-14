@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from authnapp.forms import ShopUserLoginForm, ShopUserCreationForm
+from authnapp.forms import ShopUserLoginForm, ShopUserCreationForm, ShopUserChangeForm
 from django.contrib import auth
 from django.urls import reverse
 
@@ -41,3 +41,18 @@ def register(request):
 
     content = {'title': title, 'register_form': register_form}
     return render(request, 'authnapp/register.html', content)
+
+
+def edit(request):
+    title = 'редактирование'
+
+    if request.method == 'POST':
+        form = ShopUserChangeForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(request.path_info)
+    else:
+        form = ShopUserChangeForm(instance=request.user)
+
+    content = {'title': title, 'form': form}
+    return render(request, 'authnapp/update.html', content)

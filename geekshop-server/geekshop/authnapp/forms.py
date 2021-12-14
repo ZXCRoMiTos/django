@@ -1,5 +1,6 @@
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
+from django.forms.widgets import HiddenInput
 from .models import ShopUser
 
 
@@ -22,4 +23,18 @@ class ShopUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(ShopUserCreationForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+
+
+class ShopUserChangeForm(UserChangeForm):
+    class Meta:
+        model = get_user_model()
+        fields = ("username", "password", "email", "first_name", "last_name", "age", "avatar")
+
+    def __init__(self, *args, **kwargs):
+        super(ShopUserChangeForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field_name == 'password':
+                field.widget = HiddenInput()
+                continue
             field.widget.attrs['class'] = 'form-control'

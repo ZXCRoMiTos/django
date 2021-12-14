@@ -9,6 +9,11 @@
     {% endfor %}
     {% if user.is_authenticated %}
         <li>
+            <a href="{% url 'auth:edit' %}">
+                {{ user.first_name|default:"пользователь"|capfirst }}
+            </a>
+        </li>
+        <li>
             <a href="{% url 'auth:logout' %}">
                 выйти
             </a>
