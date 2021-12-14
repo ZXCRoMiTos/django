@@ -39,7 +39,7 @@ module_dir = os.path.dirname(__file__)
 menu = [
     {'href': 'main:index', 'url': 'index', 'name': 'домой'},
     {'href': 'main:products', 'url': 'products', 'name': 'продукты'},
-    {'href': 'main:contact', 'url': 'contact', 'name': 'контакты'}
+    {'href': 'main:contact', 'url': 'contact', 'name': 'контакты'},
 ]
 
 products_menu = [
