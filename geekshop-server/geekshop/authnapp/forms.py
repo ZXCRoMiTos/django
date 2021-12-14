@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
-from django.forms.widgets import HiddenInput
+from django.forms import HiddenInput, forms
 from .models import ShopUser
 
 
@@ -15,7 +15,14 @@ class ShopUserLoginForm(AuthenticationForm):
             field.widget.attrs['class'] = 'form-control'
 
 
-class ShopUserCreationForm(UserCreationForm):
+class AgeValidatorMixin:
+    def clean_age(self):
+        age = self.cleaned_data.get('age')
+        if age and age < 18:
+            raise forms.ValidationError('Сайт для совершеннолетних!')
+
+
+class ShopUserCreationForm(AgeValidatorMixin, UserCreationForm):
     class Meta:
         model = get_user_model()
         fields = ('username', 'password1', 'password2', 'email', 'age')
@@ -26,7 +33,7 @@ class ShopUserCreationForm(UserCreationForm):
             field.widget.attrs['class'] = 'form-control'
 
 
-class ShopUserChangeForm(UserChangeForm):
+class ShopUserChangeForm(AgeValidatorMixin, UserChangeForm):
     class Meta:
         model = get_user_model()
         fields = ("username", "password", "email", "first_name", "last_name", "age", "avatar")
