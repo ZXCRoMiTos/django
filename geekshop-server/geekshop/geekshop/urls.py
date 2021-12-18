@@ -18,18 +18,12 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import include
-import mainapp.views as mainapp
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('mainapp.urls', namespace='main')),
     path('auth/', include('authnapp.urls', namespace='auth')),
-    path('products_all/', mainapp.products, name='products_all'),
-    path('products_home/', mainapp.products, name='products_home'),
-    path('products_office/', mainapp.products, name='products_office'),
-    path('products_modern/', mainapp.products, name='products_modern'),
-    path('products_classic/', mainapp.products, name='products_classic'),
 ]
 
 if settings.DEBUG:
