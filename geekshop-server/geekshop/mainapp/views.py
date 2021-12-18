@@ -1,7 +1,7 @@
-from django.shortcuts import render
-from .models import Product
+from django.shortcuts import render, get_object_or_404
+from .models import Product, ProductCategory
+from basketapp.models import Basket
 import os
-import json
 
 
 def index(request):
@@ -14,14 +14,21 @@ def index(request):
     return render(request, 'mainapp/index.html', content)
 
 
-def products(request):
-    file_path = os.path.join(module_dir, 'fixtures/products.json')
-    products_card = json.load(open(file_path, encoding='utf-8'))
+def products(request, pk):
+    basket = []
+    if request.user.is_authenticated:
+        basket = Basket.objects.filter(user=request.user)
+    products_menu = ProductCategory.objects.all()
+    if pk == 0:
+        products = Product.objects.all()
+    else:
+        products = Product.objects.filter(category__pk=pk)
     content = {
         'title': 'Продукты',
         'menu': menu,
         'products_menu': products_menu,
-        'products_card': products_card
+        'products': products,
+        'basket': basket,
     }
     return render(request, 'mainapp/products.html', content)
 
@@ -39,13 +46,5 @@ module_dir = os.path.dirname(__file__)
 menu = [
     {'href': 'main:index', 'url': 'index', 'name': 'домой'},
     {'href': 'main:products', 'url': 'products', 'name': 'продукты'},
-    {'href': 'main:contact', 'url': 'contact', 'name': 'контакты'}
-]
-
-products_menu = [
-    {'href': 'products_all', 'name': 'все'},
-    {'href': 'products_home', 'name': 'дом'},
-    {'href': 'products_office', 'name': 'офис'},
-    {'href': 'products_modern', 'name': 'модерн'},
-    {'href': 'products_classic', 'name': 'классика'}
+    {'href': 'main:contact', 'url': 'contact', 'name': 'контакты'},
 ]
