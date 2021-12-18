@@ -1,12 +1,15 @@
 from django.shortcuts import render
+from .models import Product
 import os
 import json
 
 
-def main(request):
+def index(request):
+    products_in_main = Product.objects.all()
     content = {
-        'title': 'Домой',
+        'title': 'Главная',
         'menu': menu,
+        'products': products_in_main
     }
     return render(request, 'mainapp/index.html', content)
 
@@ -34,9 +37,9 @@ def contact(request):
 module_dir = os.path.dirname(__file__)
 
 menu = [
-    {'url': 'main', 'name': 'домой'},
-    {'url': 'products', 'name': 'продукты'},
-    {'url': 'contact', 'name': 'контакты'}
+    {'href': 'main:index', 'url': 'index', 'name': 'домой'},
+    {'href': 'main:products', 'url': 'products', 'name': 'продукты'},
+    {'href': 'main:contact', 'url': 'contact', 'name': 'контакты'}
 ]
 
 products_menu = [
