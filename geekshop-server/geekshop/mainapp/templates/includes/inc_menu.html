@@ -30,8 +30,13 @@
             </a>
         </li>
     {% endif %}
-        <li>
-            <a href="#">в корзине: {% if basket %} {{ basket|length }} {% endif %}</a>
+       <li>
+            <a href="#">
+                <span>{% if basket %}
+                    {{ basket.0.total_cost|floatformat:0 }} руб.
+                    {{ basket.0.total_quantity }} шт.
+                    {% endif %}</span>
+            </a>
         </li>
 </ul>
 <a href="#" class="search"></a>
