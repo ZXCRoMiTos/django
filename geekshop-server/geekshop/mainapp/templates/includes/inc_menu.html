@@ -1,10 +1,43 @@
+<a href="index.html" class="logo"></a>
 <ul class="menu">
     {% for link in menu %}
         <li>
-            <a href="{% url link.href %}"
+            {% if link.href == 'main:products' %}
+                <a href="{% url link.href 0 %}"
+            {% else %}
+                <a href="{% url link.href %}"
+            {% endif %}
                 class = "{% if request.resolver_match.url_name == link.url %} active {% endif %}">
             {{ link.name }}
             </a>
         </li>
     {% endfor %}
+    {% if user.is_authenticated %}
+        <li>
+            <a href="{% url 'auth:edit' %}">
+                {{ user.first_name|default:"пользователь"|capfirst }}
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'auth:logout' %}">
+                выйти
+            </a>
+        </li>
+    {% else %}
+        <li>
+            <a href="{% url 'auth:login' %}">
+                войти
+            </a>
+        </li>
+    {% endif %}
+       <li>
+            <a href="#">
+                <span>{% if basket %}
+                    {{ basket.0.total_cost|floatformat:0 }} руб.
+                    {{ basket.0.total_quantity }} шт.
+                    {% endif %}</span>
+            </a>
+        </li>
 </ul>
+<a href="#" class="search"></a>
+<a href="{% url 'basket:view' %}" class="basket"></a>
